@@ -1,8 +1,21 @@
 "use client"
-import {  useState } from "react"
+import {  useState , useEffect } from "react"
 import { ButtonComponent } from "../components/ButtonComponet";
 export default   function Stream (){
+    const [messege , setMessege] = useState(['']);
     const [inpvalue , Setinpvalue] = useState();
+    const [socket , SetSocket] = useState();
+     useEffect(()=>{
+        const ws = new WebSocket("ws://localhost:8080");
+        //@ts-ignore
+         SetSocket(ws);
+         ws.onmessage = (msg)=>{
+           setMessege((prevMessage)=>[...prevMessage, msg.data])
+         }
+         ws.onerror = ((err)=>{
+           console.log("Error whiel getting data ",err);
+         })
+},[]);
     return( <>
     <div className="flex flex-col h-full w-full">
     <div className="flex w-screen h-screen justify-center items-center  ">
@@ -21,7 +34,11 @@ export default   function Stream (){
                 >
                 </ButtonComponent>
                 <button className="flex justify-center items-center bg-blue-400 px-4 p-2 m-2 rounded-3xl text-white " onClick={async()=>{
-                    // Call to the db for the upvote redis 
+                    //@ts-ignore
+                    socket.send(JSON.stringify({
+                        type: '',
+                        url: 'youtube.com'
+                    }))
                 }}>
                     upvote 
 

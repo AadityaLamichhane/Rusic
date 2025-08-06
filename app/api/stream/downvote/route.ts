@@ -1,13 +1,13 @@
 // Expects the post request to downvote and the upVote 
 import { authOptions } from '@/lib/authOptions'
 import db from '@/lib/db'
-import { getServerSession } from 'next-auth';
+import  { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import z from "zod"
 const UpvoteSchema = z.object({
     streamId :z.string(),
 })
-export default async function POST (req:NextRequest){
+export  async function POST (req:NextRequest){
 
     // Authentication of the user 
     const session = await getServerSession(authOptions);
